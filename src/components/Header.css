@@ -1,0 +1,9 @@
+.travel-img {
+    width: 120px;
+}
+
+@media screen and (max-width: 500px){
+    .travel-img {
+        width: 80px;
+    }
+}
