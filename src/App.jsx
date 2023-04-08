@@ -28,10 +28,6 @@ function App() {
     setDatesArray(dates);
   }
 
-  // function addExpense(amount){
-  //   setUsedBudget(usedBudget + amount);
-  // }
-
   useEffect(() => {
     if(endDate <= startDate){
       setValidDateRange(false);
@@ -68,15 +64,15 @@ function App() {
             <label htmlFor="budget-input">Budget <img src={dollar} className="small-img" alt="$" /></label>
             <input className="form-control" type="number" name="budget-input" id="budget-input" value={budget} onChange={e => setBudget(parseInt(e.target.value))} />
           </div>
-          {/* <div className="form-group ps-1 pe-1 d-flex flex-column justify-content-end">
+          <div className="form-group ps-1 pe-1 d-flex flex-column justify-content-end">
             <button type="button" className={(validBudget && validDateRange)? "btn btn-primary": "btn btn-primary disabled"} onClick={() => spreadDates()}>Start planning</button>
-          </div> */}
+          </div>
           <div className="form-group ps-1 pe-1 d-flex flex-column justify-content-end">
             <h5>Remaining budget: <span className={(budget - usedBudget) < 0? "text-danger": ""}>{budget - usedBudget}</span></h5>
           </div>
         </form>
       </div>
-      <div className="ps-3 pe-3">
+      <div className="d-flex flex-wrap justify-content-start ps-3 pe-3">
         {datesArray.map((item, i) => <DayCard key={i} date={item} usedBudget={usedBudget} setUsedBudget={setUsedBudget} />)}
       </div>
     </>
