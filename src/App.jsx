@@ -14,6 +14,7 @@ function App() {
   const [endDate, setEndDate] = useState(nextDay);
   const [budget, setBudget] = useState(0);
   const [usedBudget, setUsedBudget] = useState(0);
+  const [allDayTotals, setAllDayTotals] = useState([]);
   const [validDateRange, setValidDateRange] = useState(true);
   const [validBudget, setValidBudget] = useState(false);
   const [datesArray, setDatesArray] = useState([]);
@@ -26,6 +27,31 @@ function App() {
       tempDate.setDate(tempDate.getDate() + 1);
     }
     setDatesArray(dates);
+  }
+
+  function sumTotalUsedBudget(){
+    let sum = 0;
+    for(let item of allDayTotals){
+      sum += item;
+    }
+    setUsedBudget(sum);
+  }
+
+  function zeroDayTotal(index){
+    allDayTotals[index] = 0;
+    sumTotalUsedBudget();
+  }
+
+  function updateDayCost(index, newCost){
+    if(allDayTotals[index] === undefined){
+      return;
+    }
+    allDayTotals[index] = newCost;
+    sumTotalUsedBudget();
+  }
+
+  function initiateAllDayTotal(){
+    setAllDayTotals([...allDayTotals, 0]);
   }
 
   useEffect(() => {
@@ -68,12 +94,12 @@ function App() {
             <button type="button" className={(validBudget && validDateRange)? "btn btn-primary": "btn btn-primary disabled"} onClick={() => spreadDates()}>Start planning</button>
           </div>
           <div className="form-group ps-1 pe-1 d-flex flex-column justify-content-end">
-            <h5>Remaining budget: <span className={(budget - usedBudget) < 0? "text-danger": ""}>{budget - usedBudget}</span></h5>
+            <h5>Remaining budget: <span className={(budget - usedBudget) < 0? "text-danger": ""}>{budget - usedBudget}</span> {(budget - usedBudget) < 0?<span className="badge bg-danger">Budget exceeded</span> :<></>}</h5>
           </div>
         </form>
       </div>
       <div className="d-flex flex-wrap justify-content-start ps-3 pe-3">
-        {datesArray.map((item, i) => <DayCard key={i} date={item} usedBudget={usedBudget} setUsedBudget={setUsedBudget} />)}
+        {datesArray.map((item, i) => <DayCard key={i} date={item} index={i} initTotal={initiateAllDayTotal} destroyTotal={zeroDayTotal} updateDayCost={updateDayCost} />)}
       </div>
     </>
   );

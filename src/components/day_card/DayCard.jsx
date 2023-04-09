@@ -22,7 +22,18 @@ function DayCard(props) {
     useEffect(setTotal, [activities]);
 
     useEffect(() => {
+        props.updateDayCost(props.index, totalCost);
     }, [totalCost]);
+
+    useEffect(() => {
+        props.initTotal();
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            props.destroyTotal(props.index);
+        }
+    }, []);
 
     function addActivity(activity){
         setActivities([...activities, activity]);
