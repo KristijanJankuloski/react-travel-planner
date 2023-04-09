@@ -38,7 +38,9 @@ function App() {
   }
 
   function zeroDayTotal(index){
-    allDayTotals[index] = 0;
+    let tempArray = allDayTotals;
+    tempArray[index] = 0;
+    setAllDayTotals(tempArray);
     sumTotalUsedBudget();
   }
 
@@ -46,7 +48,10 @@ function App() {
     if(allDayTotals[index] === undefined){
       return;
     }
-    allDayTotals[index] = newCost;
+    let tempArray = allDayTotals;
+
+    tempArray[index] = newCost;
+    setAllDayTotals(tempArray);
     sumTotalUsedBudget();
   }
 
